@@ -1,46 +1,126 @@
-# Getting Started with Create React App
+## Alura Studies – Cronômetro de Estudos (React + TypeScript)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicação para organizar sessões de estudo com uma lista de tarefas e um cronômetro regressivo. Projeto desenvolvido em React com TypeScript, usando CSS Modules (SCSS) e `uuid` para identificação das tarefas.
 
-## Available Scripts
+### Demonstração rápida
 
-In the project directory, you can run:
+- Adicione uma tarefa informando o tema e o tempo desejado (hh:mm:ss)
+- Clique em “Adicionar” para incluir na lista
+- Selecione um card na lista
+- Inicie o cronômetro e, ao chegar em zero, a tarefa é marcada como concluída
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Requisitos
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Node.js (recomendado 18+)
+- npm (ou yarn/pnpm, se preferir)
 
-### `npm test`
+## Instalação e execução
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+npm start
+```
 
-### `npm run build`
+A aplicação iniciará em `http://localhost:3000`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Scripts disponíveis
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `npm start`: inicia o servidor de desenvolvimento
+- `npm test`: executa a suíte de testes (Testing Library)
+- `npm run build`: gera build de produção em `build/`
+- `npm run eject`: expõe configurações do Create React App (irreversível)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Tecnologias e bibliotecas
 
-### `npm run eject`
+- React 19 + ReactDOM
+- TypeScript
+- CSS Modules com SCSS
+- uuid
+- Testing Library (React, DOM, Jest-DOM, User-Event)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Estrutura do projeto
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```text
+alura-studies/
+  public/
+  src/
+    assets/
+      img/
+    common/
+      utils/
+        time.ts               # Conversão de string de tempo para segundos
+    components/
+      Botao/
+      Cronometro/
+        Relogio/
+      Formulario/
+      Lista/
+        Item/
+    pages/
+      App.tsx                 # Composição principal da tela
+    types/
+      tarefa.ts               # Definição de ITarefa
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Principais componentes
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- `pages/App.tsx`
+  - Mantém o estado global de `tarefas` (`ITarefa[]`) e a tarefa `selecionado`
+  - Funções de seleção e finalização atualizam o estado (selecionado/completado)
+- `components/Formulario`
+  - Formulário controlado para adicionar tarefas
+  - Campos: `tarefa` (texto) e `tempo` (input `time`, com step de 1s)
+  - Gera `id` com `uuid`
+- `components/Lista` e `components/Lista/Item`
+  - Exibe a lista de tarefas, permite selecionar um card (desabilita clique quando já concluído)
+- `components/Cronometro`
+  - Converte o tempo selecionado em segundos (`common/utils/time.ts`)
+  - Faz contagem regressiva com `setTimeout` e, ao terminar, dispara `finalizarTarefa`
+  - `Relogio` formata e exibe mm:ss
+- `components/Botao`
+  - Botão estilizado reutilizável com CSS Modules
 
-## Learn More
+## Tipos
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `types/tarefa.ts`
+  - `ITarefa`:
+    - `tarefa: string`
+    - `tempo: string` (formato hh:mm:ss)
+    - `selecionado: boolean`
+    - `completado: boolean`
+    - `id: string`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Estilos
+
+- CSS Modules com SCSS (`*.module.scss`), garantindo escopo local por componente.
+
+## Testes
+
+```bash
+npm test
+```
+
+Suíte configurada com Testing Library. Ajuste/adicione testes conforme necessário.
+
+## Build e deploy
+
+```bash
+npm run build
+```
+
+Gera a pasta `build/` otimizada para produção, pronta para ser publicada em qualquer serviço de hospedagem estática.
+
+## Como usar
+
+1. Abra a aplicação
+2. Preencha o título da tarefa e o tempo desejado
+3. Clique em “Adicionar”
+4. Clique no card da tarefa para selecioná-la
+5. Pressione “Começar!” no cronômetro
+6. Ao finalizar a contagem, a tarefa é marcada como concluída
+
+---
+
+Projeto criado com Create React App, adaptado para fins educativos no curso da Alura.
